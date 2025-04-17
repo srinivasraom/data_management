@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph SyncJobs
+    X[Metadata Crawler]
+    A[Collibra Data Catalog]
+    B[SailPoint Identity Governance]
+    C[IdP (Groups/Claims)]
+    D[OPA Policy Bundles]
+    
+    X --> A
+    A --> B
+    B --> C
+    C --> D
+  end
+
+  subgraph Monitoring
+    GW[API Gateway Logs] --> SIEM[SIEM/Analytics]
+    DB[RLS Audit Logs] --> SIEM
+  end
