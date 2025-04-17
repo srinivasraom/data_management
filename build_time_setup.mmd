@@ -1,7 +1,19 @@
-```mermaid graph TB subgraph Governance Collibra["Collibra Data Catalog"] SailPoint["SailPoint Identity Governance"] end
+flowchart TB
+  subgraph Governance
+    A[Collibra Data Catalog]
+    B[SailPoint Identity Governance]
+  end
 
-subgraph PolicyMgr OPA["OPA Policy Repository"] end
+  subgraph PolicyMgr
+    C[OPA Policy Repository]
+  end
 
-subgraph Identity IdP["IdP (OIDC/SCIM)"] end
+  subgraph Identity
+    D[IdP OIDC/SCIM]
+  end
 
-Collibra -->|export asset metadata| SailPoint SailPoint -->|push roles & entitlements| IdP Collibra -->|sync attributes| OPA SailPoint -->|sync roles → claims| OPA ```
+  A -->|export asset metadata| B
+  B -->|push roles & entitlements| D
+  A -->|sync attributes| C
+  B -->|sync roles → claims| C
+
