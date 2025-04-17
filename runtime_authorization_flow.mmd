@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant U as User (Browser/App)
+    participant IDP as Identity Provider
+    participant GW as API Gateway (PEP)
+    participant OPA as Policy Engine (PDP)
+    participant APP as Application Service
+    participant DB as Database (with RLS)
+
+    U->>IDP: authenticate (OIDC/OAuth2)
+    IDP-->>U: ID token (JWT w/ group claims)
+
+    U->>GW: request + Bearer JWT
+    GW->>OPA: Evaluate(userClaims, resource, action, attributes)
+    OPA-->>GW: allow / deny
+
+    alt allowed
+      GW->>APP: forward request + JWT
+      APP->>DB: SQL query (RLS filters rows)
+      DB-->>APP: filtered rows
+      APP-->>U: 200 OK + data
+    else denied
+      GW-->>U: 403 Forbidden
+    end
