@@ -1,0 +1,18 @@
+flowchart TB
+  subgraph Governance
+    A[Collibra Data Catalog]
+    B[SailPoint Identity Governance]
+  end
+
+  subgraph PolicyMgr
+    C[OPA Policy Repository]
+  end
+
+  subgraph Identity
+    D[IdP (OIDC/SCIM)]
+  end
+
+  A -->|export asset metadata| B
+  B -->|push roles & entitlements| D
+  A -->|sync attributes| C
+  B -->|sync roles → claims| C
